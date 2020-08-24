@@ -18,14 +18,17 @@ jobs:
         
     - name: terraform-fmt
       run: terraform fmt
+      working-directory: ./3-github-actions
       continue-on-error: true
 
     # Runs a single command using the runners shell
     - name: terraform-init
       run: terraform init
+      working-directory: ./3-github-actions
     
     - name: terraform-validate
       run: terraform validate -no-color
+      working-directory: ./3-github-actions
   
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'push'
