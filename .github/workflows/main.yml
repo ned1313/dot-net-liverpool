@@ -30,8 +30,7 @@ jobs:
       id: init
       env:
         ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
-      with:
-        storage_account: ${{ secrets.STORAGE_ACCOUNT }}
+        STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
       run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT"
     
     - name: terraform-validate
