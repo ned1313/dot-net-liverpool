@@ -1,0 +1,16 @@
+# log into azure cli
+az login
+
+# select the correct subscription
+az account set -s SUBSCRIPTION_NAME
+
+# get the subscription id for your current subscription
+az account show --query "id" --output tsv
+
+# create a service principal for use with GitHub Actions
+az ad sp create-for-rbac --name "tfGitHubActions" --role contributor --scopes /subscriptions/SUBSCRIPTION_ID --sdk-auth
+
+# make note of clientId, clientSecret, subscriptionId, and tenantId
+# add ARM_CLIENT_ID, ARM_CLIENT_SECRET, and ARM_TENANT_ID to GitHub secrets for your project
+
+
