@@ -23,6 +23,6 @@ resource "azurerm_resource_group" "test_rg" {
   location = "eastus"
 
   tags = {
-    environment = "Dev"
+    environment = "Testing"
   }
 }
