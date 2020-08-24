@@ -36,6 +36,10 @@ jobs:
 
     - name: terraform-plan
       id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       if: github.event_name == 'pull_request'
       run: terraform plan -no-color
 
@@ -67,5 +71,15 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+    - name: terraform-apply
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      id: apply
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      run: terraform apply -no-color -auto-approve
+
 
 
