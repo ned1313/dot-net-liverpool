@@ -28,7 +28,11 @@ jobs:
     # Runs a single command using the runners shell
     - name: terraform-init
       id: init
-      run: terraform init
+      env:
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
+      with:
+        storage_account: ${{ secrets.STORAGE_ACCOUNT }}
+      run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT"
     
     - name: terraform-validate
       id: validate
