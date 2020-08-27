@@ -1,0 +1,15 @@
+## Log into Azure and select the correct subscription
+az login
+az account set -s SUBSCRIPTION_NAME
+
+## Let's initialize our configuration
+terraform init
+
+## Now plan and apply the configuration
+terraform plan -out state.tfplan
+terraform apply state.tfplan
+
+# Make note of output for later use
+
+## When you're done with the demo, you can destroy the storage account
+terraform destroy -auto-approve
