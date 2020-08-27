@@ -11,6 +11,6 @@ az account show --query "id" --output tsv
 az ad sp create-for-rbac --name "tfGitHubActions" --role contributor --scopes /subscriptions/SUBSCRIPTION_ID --sdk-auth
 
 # make note of clientId, clientSecret, subscriptionId, and tenantId
-# add ARM_CLIENT_ID, ARM_CLIENT_SECRET, and ARM_TENANT_ID to GitHub secrets for your project
-# add the ARM_SAS_TOKEN and STORAGE_ACCOUNT secret from when you created the remote state folder
+# add ARM_CLIENT_ID, ARM_CLIENT_SECRET, ARM_SUBSCRIPTION_ID, and ARM_TENANT_ID to GitHub secrets for your project
+# add the ARM_SAS_TOKEN and STORAGE_ACCOUNT secrets from when you created the remote state folder
 
