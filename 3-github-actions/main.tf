@@ -23,6 +23,6 @@ resource "azurerm_resource_group" "test_rg" {
   location = "eastus"
 
   tags = {
-    environment = "Testing"
+    environment = "TF Tuesday"
   }
 }
