@@ -16,11 +16,6 @@ terraform {
 # VARIABLES
 ###########################
 
-variable "az_sub" {
-    type = string
-    description = "Azure Subscription ID string"
-}
-
 variable "region" {
     type = string
     description = "Region in Azure"
@@ -38,7 +33,6 @@ variable "prefix" {
 ###########################
 
 provider "azurerm" {
-    subscription_id = var.az_sub
     #features = {}
     features {}
 }
