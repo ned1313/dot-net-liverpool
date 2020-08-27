@@ -33,8 +33,7 @@ variable "prefix" {
 ###########################
 
 provider "azurerm" {
-    features = {}
-    region = var.region
+    features {}
 }
 
 ###########################
@@ -67,5 +66,7 @@ module "network" {
     environment = "dev"
     costcenter  = "it"
   }
+
+  depends_on = [azurerm_resource_group.vnet]
 }
 
