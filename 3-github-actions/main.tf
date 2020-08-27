@@ -38,9 +38,9 @@ variable "prefix" {
 ###########################
 
 provider "azurerm" {
+    subscription_id = var.az_sub
     #features = {}
     features {}
-    subscription_id = var.az_sub
 }
 
 ###########################
