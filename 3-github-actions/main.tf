@@ -1,7 +1,6 @@
-variable "az_sub" {
-    type = string
-    description = "Azure Subscription ID string"
-}
+###########################
+# CONFIGURATION
+###########################
 
 terraform {
     required_providers {
@@ -13,16 +12,61 @@ terraform {
     }
 }
 
+###########################
+# VARIABLES
+###########################
+
+variable "region" {
+    type = string
+    description = "Region in Azure"
+    default = "eastus"
+}
+
+variable "prefix" {
+    type = string
+    description = "prefix for naming"
+    default = "dnl"
+}
+
+###########################
+# PROVIDERS
+###########################
+
 provider "azurerm" {
-    subscription_id = var.az_sub
+    #features = {}
     features {}
 }
 
-resource "azurerm_resource_group" "test_rg" {
-  name     = "Test"
-  location = "eastus"
+###########################
+# DATA SOURCES
+###########################
+
+locals {
+    name = "${var.prefix}-demo"
+}
+
+###########################
+# RESOURCES
+###########################
+
+resource "azurerm_resource_group" "vnet" {
+  name     = local.name
+  location = var.region
+}
+
+module "network" {
+  source              = "Azure/network/azurerm"
+  version = "3.1.1"
+  resource_group_name = azurerm_resource_group.vnet.name
+  vnet_name = local.name
+  address_space       = "10.0.0.0/16"
+  subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  subnet_names        = ["subnet1", "subnet2", "subnet3"]
 
   tags = {
-    environment = "Testing"
+    environment = "dev"
+    costcenter  = "it"
   }
+
+  depends_on = [azurerm_resource_group.vnet]
 }

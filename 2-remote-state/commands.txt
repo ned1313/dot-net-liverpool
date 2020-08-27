@@ -1,0 +1,9 @@
+## Store the SAS token as an environment variable
+$env:ARM_SAS_TOKEN="TOKEN_VALUE"
+
+## Initialize terraform config
+terraform init -backend-config="storage_account_name=STORAGE_ACCOUNT"
+
+## Now plan and apply
+terraform plan -out remote-state.tfplan
+terraform apply remote-state.tfplan

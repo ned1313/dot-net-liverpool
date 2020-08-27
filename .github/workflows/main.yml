@@ -4,6 +4,9 @@ name: validate-code
 
 on: [push, pull_request]
 
+env:
+  TF_LOG: INFO
+
 jobs:
   validate:
     defaults:
@@ -28,7 +31,10 @@ jobs:
     # Runs a single command using the runners shell
     - name: terraform-init
       id: init
-      run: terraform init
+      env:
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
+        STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
+      run: terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT"
     
     - name: terraform-validate
       id: validate
@@ -40,6 +46,8 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
       if: github.event_name == 'pull_request'
       run: terraform plan -no-color
 
@@ -79,6 +87,8 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
       run: terraform apply -no-color -auto-approve
 
 

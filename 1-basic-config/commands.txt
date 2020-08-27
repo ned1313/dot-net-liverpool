@@ -1,0 +1,14 @@
+## Log into Azure and select the correct subscription
+az login
+az account set -s SUBSCRIPTION_NAME
+
+## Let's initialize and validate our configuration
+terraform init
+terraform validate
+
+## Now plan and apply the configuration
+terraform plan -out basic.tfplan
+terraform apply basic.tfplan
+
+## And now we can DESTROY!!!
+terraform destroy -auto-approve
