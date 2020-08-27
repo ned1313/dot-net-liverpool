@@ -42,45 +42,30 @@ provider "azurerm" {
 ###########################
 
 locals {
-    name = "${var.prefix}-${random_integer.prefix_num.result}"
+    name = "${var.prefix}-demo"
 }
 
 ###########################
 # RESOURCES
 ###########################
 
-resource "random_integer" "prefix_num" {
-  min = 10000
-  max = 99999
-}
-
-resource "azurerm_resource_group" "aks" {
+resource "azurerm_resource_group" "vnet" {
   name     = local.name
   location = var.region
 }
 
-resource "azurerm_kubernetes_cluster" "aks" {
-  name                = local.name
-  location            = azurerm_resource_group.aks.location
-  resource_group_name = azurerm_resource_group.aks.name
-  dns_prefix          = local.name
-
-  default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
+module "network" {
+  source              = "Azure/network/azurerm"
+  version = "3.1.1"
+  resource_group_name = azurerm_resource_group.vnet.name
+  vnet_name = local.name
+  address_space       = "10.0.0.0/16"
+  subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  subnet_names        = ["subnet1", "subnet2", "subnet3"]
 
   tags = {
-    Environment = "Production"
+    environment = "dev"
+    costcenter  = "it"
   }
 }
-
-###########################
-# OUTPUTS
-###########################
 
