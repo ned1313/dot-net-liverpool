@@ -66,6 +66,7 @@ module "network" {
   tags = {
     environment = "dev"
     costcenter  = "it"
+    project     = "Monday"
   }
 
   depends_on = [azurerm_resource_group.vnet]
