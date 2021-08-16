@@ -103,4 +103,5 @@ output "resource_group_name" {
 
 output "sas_token" {
     value = data.azurerm_storage_account_sas.state.sas
+    sensitive = "true"
 }
