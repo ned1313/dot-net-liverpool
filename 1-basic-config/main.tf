@@ -65,7 +65,7 @@ module "network" {
   tags = {
     environment = "dev"
     costcenter  = "it"
-    project     = "Area 51"
+    project     = "TO THE MOON"
   }
 
   depends_on = [azurerm_resource_group.vnet]
